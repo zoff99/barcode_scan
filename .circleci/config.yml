@@ -10,10 +10,10 @@ workflows:
 jobs:
   build:
     working_directory: ~/work
-    #machine:
-    #  image: circleci/classic:latest
-    docker:
-    - image: circleci/mariadb:10.2-bionic
+    machine:
+      image: circleci/classic:latest
+    #docker:
+    #- image: circleci/mariadb:10.2-bionic
 
     steps:
       - run: pwd; ls -al; id -a
