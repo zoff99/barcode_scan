@@ -370,7 +370,8 @@ uint32_t read_value_from_file(char *filename)
         return 0;
     }
 
-    for (uint8_t j=0;j<sizeof(uint32_t);j++)
+    uint8_t j;
+    for (j=0;j<sizeof(uint32_t);j++)
     {
         value_bytes[j] = fgetc(fp);
     }
@@ -391,7 +392,8 @@ void write_value_to_file(char *filename, uint32_t value)
         return;
     }
     
-    for (uint8_t j=0;j<sizeof(uint32_t);j++)
+    uint8_t j;
+    for (j=0;j<sizeof(uint32_t);j++)
     {
         fputc(value_bytes[j], fp);
     }
