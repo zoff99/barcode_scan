@@ -26,7 +26,7 @@ jobs:
       - run: ls -al; pwd
 
       # compile
-      - run: ./compile.sh
+      - run: bash -x ./compile.sh
       - run: ldd ./scan_bar_codes
       - run: mkdir -p ~/work/deploy
       - run: cp -av ./scan_bar_codes ~/work/deploy/
