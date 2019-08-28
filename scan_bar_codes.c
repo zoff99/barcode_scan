@@ -323,7 +323,7 @@ char *get_date_in_format()
 
     if (res < 0)
     {
-        CLEAR(*ret);
+        CLEAR2(ret, (date_format_length + 1));
         ret[0] = 'U';
         ret[1] = 'n';
         ret[2] = 'k';
@@ -399,6 +399,7 @@ void write_value_to_file(char *filename, uint32_t value)
     }
 
     fflush(fp);
+    fclose(fp);
 }
 
 static void write_code_to_file(char *code)
@@ -484,7 +485,7 @@ bool init_scanner_device()
     char name[1000] = "Unknown";
     int result = 0;
 
-    result = ioctl(device_fd, EVIOCGNAME(sizeof(name)), name);
+    ioctl(device_fd, EVIOCGNAME(sizeof(name)), name);
     dbg(2, "Reading From: %s (%s)\n", scanner_devname, name);
     dbg(2, "Getting exclusive access:\n");
 
@@ -524,7 +525,7 @@ int main() {
     char *p = line;
     ssize_t read_result = 0;
     int loop1 = 1;
-    int loop2 = 1;
+
     const int max_code_length = 299;
     int current_code_length = 0;
 
@@ -560,7 +561,7 @@ int main() {
 
     __utimer_start(&tm_01);
 
-    while (loop2 == 1)
+    while (true)
     {
         read_result = read(device_fd, &ev, sizeof(ev));
 
