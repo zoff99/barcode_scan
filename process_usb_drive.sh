@@ -231,14 +231,6 @@ function pair_usb_device
     return 0
 }
 
-function import_data_name
-{
-}
-
-
-function import_data_toxsave
-{
-}
 
 #
 #
@@ -308,12 +300,6 @@ fi
 if [ "$usb_is_paired""x" == "1x" ]; then
     echo "import data phonebook and wlan:$usb_device""1" >> "$logfile"
     import_data_phonebook_and_wlan "$usb_device""1"
-
-    echo "import data name:$usb_device""1" >> "$logfile"
-    import_data_name "$usb_device""1"
-
-    echo "import data toxsave:$usb_device""1" >> "$logfile"
-    import_data_toxsave "$usb_device""1"
 fi
 # --------- IMPORT ---------
 
