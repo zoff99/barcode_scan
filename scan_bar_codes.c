@@ -459,6 +459,8 @@ void on_start_scanner()
     snprintf(cmd_str, sizeof(cmd_str), "%s", shell_cmd__onstart);
 
     if (system(cmd_str)){};
+
+    dbg(2, "on_start_scanner\n");
 }
 
 void on_end_scanner()
@@ -470,6 +472,8 @@ void on_end_scanner()
     snprintf(cmd_str, sizeof(cmd_str), "%s", shell_cmd__onend);
 
     if (system(cmd_str)){};
+    
+    dbg(2, "on_end_scanner\n");
 }
 
 void on_error_scanner()
@@ -479,6 +483,8 @@ void on_error_scanner()
     snprintf(cmd_str, sizeof(cmd_str), "%s", shell_cmd__onerror);
 
     if (system(cmd_str)){};
+    
+    dbg(2, "on_error_scanner\n");
 }
 
 void make_db_directory()

@@ -24,10 +24,11 @@ export _HOME_
 echo $_HOME_/
 cd $_HOME_/
 
+# -fsanitize=address -fno-omit-frame-pointer \
+# -lasan \
+
 gcc -O3 -Wall -Wextra \
 scan_bar_codes.c \
--fsanitize=address -fno-omit-frame-pointer \
--lasan \
 -o scan_bar_codes || exit 1
 
 echo "build OK"
