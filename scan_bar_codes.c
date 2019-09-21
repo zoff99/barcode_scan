@@ -166,9 +166,9 @@ char stab[] = {
 
 int device_fd = -1;
 const char *db_directory = "./db/";
-const char *shell_cmd__onstart = "./on_start.sh 2> /dev/null";
-const char *shell_cmd__onend = "./on_end.sh 2> /dev/null";
-const char *shell_cmd__onerror = "./on_error.sh 2> /dev/null";
+const char *shell_cmd__onstart = "./scripts/on_start.sh 2> /dev/null";
+const char *shell_cmd__onend = "./scripts/on_end.sh 2> /dev/null";
+const char *shell_cmd__onerror = "./scripts/on_error.sh 2> /dev/null";
 FILE *logfile = NULL;
 #define CURRENT_LOG_LEVEL 9 // 0 -> error, 1 -> warn, 2 -> info, 9 -> debug
 #define DOUBLE_SCAN_INTERVAL_MS 710
@@ -472,7 +472,7 @@ void on_end_scanner()
     snprintf(cmd_str, sizeof(cmd_str), "%s", shell_cmd__onend);
 
     if (system(cmd_str)){};
-    
+
     dbg(2, "on_end_scanner\n");
 }
 
@@ -483,7 +483,7 @@ void on_error_scanner()
     snprintf(cmd_str, sizeof(cmd_str), "%s", shell_cmd__onerror);
 
     if (system(cmd_str)){};
-    
+
     dbg(2, "on_error_scanner\n");
 }
 
