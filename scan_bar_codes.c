@@ -377,6 +377,9 @@ uint32_t read_value_from_file(char *filename)
     }
     
     fclose(fp);
+    
+    dbg(2, "read_value_from_file:%d\n", ret);
+    
     return ret;
 }
 
@@ -391,6 +394,9 @@ void write_value_to_file(char *filename, uint32_t value)
     {
         return;
     }
+
+    dbg(2, "write_value_to_file:%d\n", value);
+
     
     uint8_t j;
     for (j=0;j<sizeof(uint32_t);j++)
