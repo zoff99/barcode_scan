@@ -404,7 +404,11 @@ void write_value_to_file(char *filename, uint32_t value)
         fputc(value_bytes[j], fp);
     }
 
+    // try as hard as possible to flush data to disk ----------
     fflush(fp);
+    fsync(fileno(fp));
+    // try as hard as possible to flush data to disk ----------
+
     fclose(fp);
 }
 
