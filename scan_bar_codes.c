@@ -50,8 +50,8 @@
 // ----------- version -----------
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 99
-#define VERSION_PATCH 1
-static const char global_version_string[] = "0.99.1";
+#define VERSION_PATCH 2
+static const char global_version_string[] = "0.99.2";
 // ----------- version -----------
 // ----------- version -----------
 
@@ -169,6 +169,7 @@ const char *db_directory = "./db/";
 const char *shell_cmd__onstart = "./scripts/on_start.sh 2> /dev/null";
 const char *shell_cmd__onend = "./scripts/on_end.sh 2> /dev/null";
 const char *shell_cmd__onerror = "./scripts/on_error.sh 2> /dev/null";
+const char *shell_cmd__onscan = "./scripts/on_scan.sh 2> /dev/null";
 FILE *logfile = NULL;
 #define CURRENT_LOG_LEVEL 9 // 0 -> error, 1 -> warn, 2 -> info, 9 -> debug
 #define DOUBLE_SCAN_INTERVAL_MS 710
@@ -491,6 +492,15 @@ void on_error_scanner()
     dbg(2, "on_error_scanner\n");
 }
 
+void on_scan()
+{
+    char cmd_str[1000];
+    CLEAR(cmd_str);
+    snprintf(cmd_str, sizeof(cmd_str), "%s", shell_cmd__onscan);
+
+    if (system(cmd_str)){};
+}
+
 void make_db_directory()
 {
     mkdir(db_directory, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP);
@@ -613,6 +623,8 @@ int main() {
                             // remember the last scanned code
                             CLEAR2(last_scanned_code, 300);
                             strcpy(last_scanned_code, line);
+                            // blink the external LED (via GPIO)
+                            on_scan();
                         }
 
                         CLEAR2(line, 300);

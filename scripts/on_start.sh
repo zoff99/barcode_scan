@@ -12,4 +12,10 @@ else
     echo default-on | sudo tee /sys/class/leds/led0/trigger
     # red
     echo none | sudo tee /sys/class/leds/led1/trigger
+
+    # set GPIO for external LED
+    echo "26" | sudo tee /sys/class/gpio/export
+    echo "out" | sudo tee /sys/class/gpio/gpio26/direction
+    echo "0" | sudo tee /sys/class/gpio/gpio26/value
+
 fi
