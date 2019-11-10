@@ -50,8 +50,8 @@
 // ----------- version -----------
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 99
-#define VERSION_PATCH 2
-static const char global_version_string[] = "0.99.2";
+#define VERSION_PATCH 3
+static const char global_version_string[] = "0.99.3";
 // ----------- version -----------
 // ----------- version -----------
 
@@ -172,7 +172,7 @@ const char *shell_cmd__onerror = "./scripts/on_error.sh 2> /dev/null";
 const char *shell_cmd__onscan = "./scripts/on_scan.sh 2> /dev/null";
 FILE *logfile = NULL;
 #define CURRENT_LOG_LEVEL 9 // 0 -> error, 1 -> warn, 2 -> info, 9 -> debug
-#define DOUBLE_SCAN_INTERVAL_MS 710
+#define DOUBLE_SCAN_INTERVAL_MS 910
 
 void usleep_usec(uint64_t usec)
 {
