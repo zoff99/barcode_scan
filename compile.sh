@@ -25,10 +25,19 @@ echo $_HOME_/
 cd $_HOME_/
 
 # -fsanitize=address -fno-omit-frame-pointer \
-# -lasan \
+# -lasan
 
 gcc -O3 -Wall -Wextra \
 scan_bar_codes.c \
 -o scan_bar_codes || exit 1
 
+./initscript.sh stop
+sleep 10
+
+gcc -O3 -Wall -Wextra \
+scan_bar_codes.c \
+-o scan_bar_codes
+
 echo "build OK"
+
+./initscript.sh start
