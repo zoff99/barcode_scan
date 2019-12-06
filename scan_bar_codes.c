@@ -50,8 +50,8 @@
 // ----------- version -----------
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 99
-#define VERSION_PATCH 3
-static const char global_version_string[] = "0.99.3";
+#define VERSION_PATCH 4
+static const char global_version_string[] = "0.99.4";
 // ----------- version -----------
 // ----------- version -----------
 
@@ -607,6 +607,7 @@ int main() {
                     if (ch == '\n')
                     {
                         *p = '\0';
+                        // stop timeout counter here
                         timspan_in_ms = __utimer_stop(&tm_01);
                         // dbg(2, "delta ms=%lld\n", (long long)timspan_in_ms);
 
@@ -618,13 +619,14 @@ int main() {
                         }
                         else
                         {
-                            __utimer_start(&tm_01);
                             write_code_to_file(line);
                             // remember the last scanned code
                             CLEAR2(last_scanned_code, 300);
                             strcpy(last_scanned_code, line);
                             // blink the external LED (via GPIO)
                             on_scan();
+                            // start timeout counter here (after LED blink time)
+                            __utimer_start(&tm_01);
                         }
 
                         CLEAR2(line, 300);
