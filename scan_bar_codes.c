@@ -173,7 +173,7 @@ const char *shell_cmd__onscan = "./scripts/on_scan.sh 2> /dev/null";
 const char *log_filename = "./scan_bar_codes.log";
 FILE *logfile = NULL;
 #define CURRENT_LOG_LEVEL 9 // 0 -> error, 1 -> warn, 2 -> info, 9 -> debug
-#define DOUBLE_SCAN_INTERVAL_MS 910
+#define DOUBLE_SCAN_INTERVAL_MS 3000
 
 void usleep_usec(uint64_t usec)
 {
@@ -400,7 +400,6 @@ void write_value_to_file(char *filename, uint32_t value)
 
     dbg(2, "write_value_to_file:%d\n", value);
 
-    
     uint8_t j;
     for (j=0;j<sizeof(uint32_t);j++)
     {
