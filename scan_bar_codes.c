@@ -50,8 +50,8 @@
 // ----------- version -----------
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 99
-#define VERSION_PATCH 4
-static const char global_version_string[] = "0.99.4";
+#define VERSION_PATCH 5
+static const char global_version_string[] = "0.99.5";
 // ----------- version -----------
 // ----------- version -----------
 
@@ -170,6 +170,7 @@ const char *shell_cmd__onstart = "./scripts/on_start.sh 2> /dev/null";
 const char *shell_cmd__onend = "./scripts/on_end.sh 2> /dev/null";
 const char *shell_cmd__onerror = "./scripts/on_error.sh 2> /dev/null";
 const char *shell_cmd__onscan = "./scripts/on_scan.sh 2> /dev/null";
+const char *log_filename = "./scan_bar_codes.log";
 FILE *logfile = NULL;
 #define CURRENT_LOG_LEVEL 9 // 0 -> error, 1 -> warn, 2 -> info, 9 -> debug
 #define DOUBLE_SCAN_INTERVAL_MS 910
@@ -186,13 +187,14 @@ void usleep_usec(uint64_t usec)
 
 void open_logfile()
 {
-    logfile = stderr;
+    logfile = fopen(log_filename, "wb");
     setvbuf(logfile, NULL, _IONBF, 0);
 }
 
 void close_logfile()
 {
-    // dummy, nothing to close
+    fclose(logfile);
+    logfile = NULL;
 }
 
 void dbg(int level, const char *fmt, ...)
@@ -540,6 +542,7 @@ void INThandler()
 int main() {
 
     open_logfile();
+    dbg(2, "scan_bar_codes:version:%s\n", global_version_string);
     on_error_scanner();
     make_db_directory();
 
@@ -560,6 +563,9 @@ int main() {
 
     char *last_scanned_code = calloc(1, 300);
     CLEAR2(last_scanned_code, 300);
+
+    dbg(2, "main loop start\n");
+    dbg(2, "trying to use device:%s\n", scanner_devname);
 
     while (loop1 == 1)
     {
@@ -609,13 +615,11 @@ int main() {
                         *p = '\0';
                         // stop timeout counter here
                         timspan_in_ms = __utimer_stop(&tm_01);
-                        // dbg(2, "delta ms=%lld\n", (long long)timspan_in_ms);
+                        dbg(2, "delta ms=%lld\n", (long long)timspan_in_ms);
 
-                        if ((timspan_in_ms < DOUBLE_SCAN_INTERVAL_MS)
-                            &&
-                            (strcmp(line, last_scanned_code) == 0))
+                        if (timspan_in_ms < (long long)DOUBLE_SCAN_INTERVAL_MS)
                         {
-                            dbg(2, "same code 2 times in a short time, this must be a false double scan\n");
+                            dbg(2, "tried to scan too fast, after previous scan\n");
                         }
                         else
                         {
@@ -666,7 +670,7 @@ int main() {
                     // Failed to open event device
                     // try again in a while
                     // dbg(2, "Failed to open event device\n");
-                    sleep_ms(300);
+                    sleep_ms(400);
                 }
                 else
                 {
